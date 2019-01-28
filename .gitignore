@@ -1,0 +1,49 @@
+# General
+.DS_Store
+*.py[cod]
+.gradle
+.gradletasknamecache
+
+# IntelliJ         IDEA
+*.iml
+.idea
+
+# Eclipse
+.classpath
+.project
+.settings
+
+# Directories
+/*/target
+/*/build
+/*/dist
+/build/*
+
+# some .properties  files
+/**/config.properties
+/**/elog.xml
+/config/client.json
+/config/prod
+/config/dev
+logging.properties
+logFile.log
+
+soa-backup
+
+# shell script for deploy
+deploy.sh
+napos-java.xml
+napos-java.properties
+backList
+
+gradle
+
+
+# debug output     file
+common-business/out/
+nevermore-push-descriptor/out/
+nevermore-push-processor/out/
+order-service-descriptor/out/
+order-service-processor/out/
+faraway/out/
+order-api-melody/out/
