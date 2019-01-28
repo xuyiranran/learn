@@ -19,8 +19,8 @@ public class ArrayStack<E> implements Stack<E>{
     }
 
     @Override
-    public void push(E o) {
-
+    public void push(E e) {
+        dynamicArray.addLast(e);
     }
 
     @Override
