@@ -1,9 +1,12 @@
 package learnData.linklist;
 
-public class Linklist<E> {
+public class LinkedList<E> {
 
 
     private Node<E> head;
+
+    /** 虚拟节点*/
+    private Node<E> dummyHead;
 
     private int size;
 
@@ -20,21 +23,36 @@ public class Linklist<E> {
             this.e=e;
             this.next=null;
         }
+
+        public Node(){
+            this.e=null;
+            this.next=null;
+        }
     }
 
-    public Linklist(E e){
+    public LinkedList(E e){
+        dummyHead=new Node<>();
         head=new Node<>(e,null);
     }
 
-    public Linklist(){
+    public LinkedList(){
         this(null);
     }
 
     public void addFirst(E e){
         Node<E> node=new Node<>(e);
-        node.next=head.next;
-        head.next=node;
+        Node<E> pre=dummyHead;
+        node.next=pre.next;
+        pre.next=node;
         size++;
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+    public boolean isEmpty(){
+        return size==0;
     }
 
     public void addLast(E e){
@@ -63,11 +81,10 @@ public class Linklist<E> {
     public String toString() {
         Node<E> tmp=head;
         StringBuilder sb=new StringBuilder();
-        while (tmp!=null){
-            if (tmp.e!=null){
-                sb.append(tmp.e+"->");
-            }
-            tmp=tmp.next;
+        Node<E> cur=dummyHead.next;
+        while (cur!=null){
+            sb.append(cur.e.toString()+"->");
+            cur=cur.next;
         }
         sb.append("linklist:"+size);
         return sb.toString();
@@ -76,10 +93,10 @@ public class Linklist<E> {
 
     public static void main(String[] args) {
 
-        Linklist<Integer> linklist=new Linklist<>();
+        LinkedList<Integer> linkedList =new LinkedList<>();
         for (int i = 0; i <5 ; i++) {
-            linklist.addFirst(i);
+            linkedList.addFirst(i);
         }
-        System.out.println(linklist);
+        System.out.println(linkedList);
     }
 }
