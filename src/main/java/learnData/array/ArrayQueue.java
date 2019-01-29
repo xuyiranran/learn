@@ -50,10 +50,12 @@ public class ArrayQueue<E> implements Queue<E>{
 
     public static void main(String[] args) {
 
-        Queue<Integer> queue=new ArrayQueue<>(10);
-        for (int i = 0; i < 11; i++) {
+//        Queue<Integer> queue=new ArrayQueue<>(10);
+        Queue<Integer> queue=new LoopQueue<>(10);
+        for (int i = 0; i < 10; i++) {
             queue.enqueue(i);
         }
+        System.out.println(queue.size());
         System.out.println(queue);
 
         int data=queue.dequeue();
