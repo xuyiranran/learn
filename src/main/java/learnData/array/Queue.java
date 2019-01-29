@@ -7,6 +7,10 @@ package learnData.array;
  * 3、peek()查看将要出队元素
  * 4、size()队列元素size
  * 5、isEmpty()返回队列是否为空
+ *
+ * 队列数据结构,先进先出FIFO
+ * 对应于数组的操作是入队是addLast,出队是getFirst
+ * [front===========tail]
  */
 public interface Queue<E> {
 
