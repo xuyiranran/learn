@@ -1,102 +1,191 @@
 package learnData.linklist;
 
+import java.util.Objects;
+
+/**
+ * 链表数据结构(单向链表,包含虚拟首节点)
+ *
+ * @param <E>
+ */
 public class LinkedList<E> {
 
 
+    /**
+     * 链表头,有时候为了方便删除还有增加tail节点
+     */
     private Node<E> head;
-
-    /** 虚拟节点*/
-    private Node<E> dummyHead;
-
+    /**
+     * 链表实际包含元素size
+     */
     private int size;
 
-    private static class Node<E>{
+    /**
+     * 虚拟节点(没有实际意义,仅仅只是方便操作链表)
+     */
+    private Node<E> dummyHead;
+
+
+    private static class Node<E> {
         private E e;
         private Node<E> next;
 
-        public Node(E e,Node node){
-            this.e=e;
-            this.next=node;
+        public Node(E e, Node node) {
+            this.e = e;
+            this.next = node;
         }
 
-        public Node(E e){
-            this.e=e;
-            this.next=null;
+        public Node(E e) {
+            this.e = e;
+            this.next = null;
         }
 
-        public Node(){
-            this.e=null;
-            this.next=null;
+        public Node() {
         }
     }
 
-    public LinkedList(E e){
-        dummyHead=new Node<>();
-        head=new Node<>(e,null);
+    /**
+     * 链表初始化
+     *
+     * @param e 头节点元素
+     */
+    public LinkedList(E e) {
+        dummyHead = new Node<>();
+        if (e!=null){
+            Node<E> node = new Node<>(e, null);
+            head = node;
+            size++;
+        }
+        dummyHead.next = head;
     }
 
-    public LinkedList(){
+    public LinkedList() {
         this(null);
     }
 
-    public void addFirst(E e){
-        Node<E> node=new Node<>(e);
-        Node<E> pre=dummyHead;
-        node.next=pre.next;
-        pre.next=node;
+    public void add(int index, E e) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("index out of exception");
+        }
+        Node pre = dummyHead;
+        Node<E> addNode = new Node<>(e);
+        for (int i = 0; i < index; i++) {
+            pre = pre.next;
+        }
+        addNode.next = pre.next;
+        pre.next = addNode;
         size++;
     }
 
-    public int getSize(){
+    public void addFirst(E e) {
+        add(0, e);
+    }
+
+    public void addLast(E e) {
+        add(size, e);
+    }
+
+
+    public E remove(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("index out of exception");
+        }
+        Node<E> pre = dummyHead;
+        for (int i = 0; i < index - 1; i++) {
+            pre = pre.next;
+        }
+        Node<E> removeData = pre.next;
+        pre.next = removeData.next;
+        removeData.next = null;
+        return removeData.e;
+    }
+
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    public E removeLast() {
+        return remove(size);
+    }
+
+
+    public E get(int index){
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("index out of exception");
+        }
+        Node<E> cur=dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            cur=cur.next;
+        }
+        return cur.e;
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size);
+    }
+
+    public boolean contains(E e){
+        Node<E> pre=dummyHead;
+        while (pre.next!=null){
+            if (Objects.equals(e,pre.e)){
+                return true;
+            }
+            pre=pre.next;
+        }
+        return false;
+    }
+
+    public int getSize() {
         return size;
     }
 
-    public boolean isEmpty(){
-        return size==0;
+    public boolean isEmpty() {
+        return size == 0;
     }
-
-    public void addLast(E e){
-        Node<E> node=new Node<>(e);
-        Node tmp=head;
-        while (tmp.next!=null){
-             tmp=tmp.next;
-        }
-        tmp.next=node;
-        size++;
-    }
-
-    public E removeLast(E e){
-        Node<E> tmp=head;
-        while (tmp.next.next!=null){
-            tmp=tmp.next;
-        }
-        E removeData=tmp.next.e;
-        tmp.next=null;
-        size--;
-        return removeData;
-    }
-
 
     @Override
     public String toString() {
-        Node<E> tmp=head;
-        StringBuilder sb=new StringBuilder();
-        Node<E> cur=dummyHead.next;
-        while (cur!=null){
-            sb.append(cur.e.toString()+"->");
-            cur=cur.next;
+        StringBuilder sb = new StringBuilder();
+        Node<E> cur = dummyHead;
+        while (cur.next != null) {
+            sb.append(cur.next.e + "->");
+            cur = cur.next;
         }
-        sb.append("linklist:"+size);
+        sb.append("linklist:" + size);
         return sb.toString();
 
     }
 
     public static void main(String[] args) {
 
-        LinkedList<Integer> linkedList =new LinkedList<>();
-        for (int i = 0; i <5 ; i++) {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        System.out.println(linkedList.size);
+        for (int i = 0; i < 10; i++) {
             linkedList.addFirst(i);
         }
+        System.out.println(linkedList.size);
+        linkedList.add(3,999);
+        linkedList.remove(9);
+        linkedList.add(5,999);
+        linkedList.add(5,999);
+        linkedList.add(5,999);
         System.out.println(linkedList);
+
+        Node<Integer> pre=linkedList.dummyHead;
+        while (pre.next!=null){
+            Node<Integer> delNode=pre.next;
+            if (delNode.e==999){
+                pre.next=delNode.next;
+                delNode.next=null;
+            }else {
+                pre=pre.next;
+            }
+        }
+
+        System.out.println(linkedList);
+
     }
 }
