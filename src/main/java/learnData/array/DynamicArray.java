@@ -154,18 +154,20 @@ public class DynamicArray<E> {
 
     /**
      * 获取最后一个元素
+     *
      * @return
      */
-    public E getLast(){
-        return get(size-1);
+    public E getLast() {
+        return get(size - 1);
     }
 
     /**
      * 获取第一个元素
+     *
      * @return
      */
-    public E getFirst(){
-       return get(0);
+    public E getFirst() {
+        return get(0);
     }
 
     /**
@@ -181,6 +183,15 @@ public class DynamicArray<E> {
             }
         }
         return -1;
+    }
+
+    public void swap(int i, int j) {
+        if (i < 0 || i > size - 1 || j < 0 || j > size - 1) {
+            throw new IndexOutOfBoundsException("数组越界");
+        }
+        E tmp = data[i];
+        data[i] = data[j];
+        data[j] = tmp;
     }
 
     /**
@@ -204,7 +215,7 @@ public class DynamicArray<E> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            sb.append(data[i]+",");
+            sb.append(data[i] + ",");
         }
         sb.append("size:" + size + "capacity:" + capacity);
         return sb.toString();
@@ -221,7 +232,7 @@ public class DynamicArray<E> {
         dynamicArray.addLast(5);
         dynamicArray.addLast(6);
         dynamicArray.addFirst(-1);
-        dynamicArray.add(2,666);
+        dynamicArray.add(2, 666);
         System.out.println(dynamicArray);
 
         dynamicArray.removeFirst();
