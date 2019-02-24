@@ -24,6 +24,24 @@ public class SimpleMaxHeap<E extends Comparable<? super E>> {
         data = (E[]) new Comparable[capacity];
     }
 
+    public SimpleMaxHeap(E[] arr) {
+
+        this(DEFAULT_SIZE);
+        //方法一
+//        for (E data:arr) {
+//            add(data);
+//        }
+
+        //方法二
+        for (int i = 0; i < arr.length; i++) {
+            data[i] = arr[i];
+            size++;
+        }
+        for (int i = parentIndex(arr.length - 1); i >= 0; i--) {
+            shitDown(i);
+        }
+    }
+
     public int getSize() {
         return size;
     }
@@ -114,6 +132,31 @@ public class SimpleMaxHeap<E extends Comparable<? super E>> {
         if (size == 0) throw new RuntimeException("空堆");
         E max = data[0];
         return max;
+    }
+
+    /**
+     * 取出最大元素后,放入一个新元素
+     *
+     * @param element
+     * @return
+     */
+    public E replace(E element) {
+
+        //方式一:复杂度为两次O(logn)
+//        E max = popMax();
+//        add(element);
+//        return max;
+
+        //方式二:复杂度为一次O(logn)
+        E max = peekMax();
+        data[0] = element;
+        shitDown(0);
+        return max;
+    }
+
+
+    private void buildHeap(E[] array) {
+
     }
 
     /**
