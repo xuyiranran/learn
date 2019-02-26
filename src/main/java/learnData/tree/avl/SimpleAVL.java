@@ -2,6 +2,7 @@ package learnData.tree.avl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * AVL树
@@ -125,27 +126,107 @@ public class SimpleAVL {
             //我们这里不处理相同元素 所以什么事情都不做
         }
 
-        //更新height
-        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+        //更新node height
+        node.height = getNodeHeight(node);
+
+        //获取平衡因子
+        int balance = getBalanceFactor(node);
 
         //左斜树LL 右旋转操作
-        if (getBalanceFactor(node) > 1 && getBalanceFactor(node.left) >= 0) {
+        if (balance > 1 && getBalanceFactor(node.left) >= 0) {
+            return rightRotate(node);
+        }
 
-            Node x = node;
-            Node y = node.left;
-            Node z = y.left;
+        //右斜树RR 左旋转操作
+        if (balance < -1 && getBalanceFactor(node.right) <= 0) {
+            return leftRotate(node);
+        }
 
-            Node T3 = y.right;
-            y.right = x;
-            x.left = T3;
+        //LR
+        if (balance > 1 && getBalanceFactor(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
 
-            x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
-            y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
-            return y;
+        //RL
+        if (balance < -1 && getBalanceFactor(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
         }
         return node;
     }
 
+    /**
+     * 左旋转操作
+     * #=================================================================================================================#
+     * #                                                                                                                 #
+     * #               x                                      y                  #                                       #
+     * #             /  \                                  /   \                 #          y.right=x                    #
+     * #           y    T4                               z       x               #          x.left=T3                    #
+     * #         /  \            ====>                 / \     /  \              #                                       #
+     * #        z   T3                               T1  T2  T3    T4            #          x==>update height            #
+     * #      /  \                                                               #          y==>update height            #
+     * #     T1   T2                                                             #                                       #
+     * #                                                                         #                                       #
+     * #                                                                         #                                       #
+     * #=================================================================================================================#
+     * y节点会作为新的根节点返回
+     *
+     * @param node
+     * @return
+     */
+    private Node rightRotate(Node node) {
+        Node x = node;
+        Node y = node.left;
+
+        //旋转交换节点
+        Node T3 = y.right;
+        y.right = x;
+        x.left = T3;
+
+        //更新有移动的x和y的高度
+        x.height = getNodeHeight(x);
+        y.height = getNodeHeight(y);
+        return y;
+    }
+
+    /**
+     * 右旋转操作
+     * #=================================================================================================================#
+     * #                                                                      #                                          #
+     * #       x                              y                               #            x.right=T2                    #
+     * #     /  \                           /  \                              #            y.left=x                      #
+     * #  T1     y                         x    z                             #                                          #
+     * #        / \          ===>        / \   / \                            #            x===>update height            #
+     * #     T2    z                    T1 T2 T3  T4                          #            y===>update height            #
+     * #          / \                                                         #                                          #
+     * #        T3  T4                                                        #                                          #
+     * #                                                                      #                                          #
+     * #                                                                      #                                          #
+     * #                                                                      #                                          #
+     * #                                                                      #                                          #
+     * #=================================================================================================================#
+     *
+     * @param node
+     * @return
+     */
+    private Node leftRotate(Node node) {
+        Node x = node;
+        Node y = node.right;
+
+        Node T2 = y.left;
+
+        x.right = T2;
+        y.left = x;
+        x.height = getNodeHeight(x);
+        y.height = getNodeHeight(y);
+        return y;
+    }
+
+
+    private int getNodeHeight(Node x) {
+        return Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+    }
 
     public void preOrder() {
         preOrder(root);
@@ -288,6 +369,7 @@ public class SimpleAVL {
      */
     private Node remove(Node node, int data) {
 
+        Node result;
         if (node == null) return null;
         if (data < node.data) {
             node.left = remove(node.left, data);
@@ -302,49 +384,118 @@ public class SimpleAVL {
                 Node rightNode = node.right;
                 node.right = null;
                 size--;
-                return rightNode;
+                result = rightNode;
             }
             //待删除节点右子树为空
-            if (node.right == null) {
+            else if (node.right == null) {
                 Node leftNode = node.left;
                 node.left = null;
                 size--;
-                return leftNode;
+                result = leftNode;
+            } else {
+                //待删除节点左右子树都不为空
+                //1、寻找出待删除节点右子树中最小节点(后继节点)/寻找出待删除节点左子树中最大节点(前驱节点)
+                //2、删除右子树的最小节点/删除左子树最大节点
+                //3、将后继节点或前驱节点替代待删除节点位置
+                Node successor = minNode(node.right);
+                successor.right = remove(node.right, successor.data);
+                successor.left = node.left;
+                //回收node节点
+                node.left = node.right = null;
+                result = successor;
             }
-            //待删除节点左右子树都不为空
-            //1、寻找出待删除节点右子树中最小节点(后继节点)/寻找出待删除节点左子树中最大节点(前驱节点)
-            //2、删除右子树的最小节点/删除左子树最大节点
-            //3、将后继节点或前驱节点替代待删除节点位置
-            Node successor = minNode(node.right);
-            successor.right = removeMin(node.right);
-            successor.left = node.left;
-            //回收node节点
-            node.left = node.right = null;
-            return successor;
+
+            if (result == null) return null;
+
+            //更新node height
+            result.height = getNodeHeight(result);
+
+            //获取平衡因子
+            int balance = getBalanceFactor(result);
+
+            //左斜树LL 右旋转操作
+            if (balance > 1 && getBalanceFactor(result.left) >= 0) {
+                return leftRotate(result);
+            }
+
+            //右斜树RR 左旋转操作
+            if (balance < -1 && getBalanceFactor(result.right) <= 0) {
+                return rightRotate(result);
+            }
+
+            //LR
+            if (balance > 1 && getBalanceFactor(result.left) < 0) {
+                result.left = leftRotate(result.left);
+                return rightRotate(result);
+            }
+
+            //RL
+            if (balance < -1 && getBalanceFactor(result.right) > 0) {
+                result.right = rightRotate(result.right);
+                return leftRotate(result);
+            }
+            return result;
         }
     }
 
     public static void main(String[] args) {
 
 
-        SimpleAVL bst = new SimpleAVL(10);
-        bst.add(5);
-        bst.add(3);
-        bst.add(1);
+        SimpleAVL bst = new SimpleAVL(1);
+
+        bst.add(1525110487);
+        bst.add(530246935);
 
 
-        System.out.println(bst.isBST(bst.root));
+
+        Random random = new Random(1000);
+
+        for (int i = 0; i < 100000; i++) {
+            int data=random.nextInt(Integer.MAX_VALUE);
+            System.out.println(data);
+            bst.add(data);
+        }
+
         System.out.println(bst.isBalanced(bst.root));
-        System.out.println(bst.getSize());
-
-        System.out.println(bst.root.data);
-        System.out.println(bst.root.left.data);
-        System.out.println(bst.root.left.left.data);
-        System.out.println("height");
         System.out.println(bst.root.height);
-        System.out.println(bst.root.left.height);
-        System.out.println(bst.root.left.left.height);
-        System.out.println(bst.root.right.height);
+
+//        bst.add(5);
+//        bst.add(3);
+//        bst.add(1);
+//
+//
+//        System.out.println(bst.isBST(bst.root));
+//        System.out.println(bst.isBalanced(bst.root));
+//        System.out.println(bst.getSize());
+//
+//        System.out.println(bst.root.data);
+//        System.out.println(bst.root.left.data);
+//        System.out.println(bst.root.left.left.data);
+//        System.out.println("height");
+//        System.out.println(bst.root.height);
+//        System.out.println(bst.root.left.height);
+//        System.out.println(bst.root.left.left.height);
+//        System.out.println(bst.root.right.height);
+
+
+//        bst.add(2);
+//        bst.add(3);
+//        bst.add(4);
+//        bst.add(5);
+//        bst.add(10);
+//
+//        System.out.println(bst.getSize());
+//        System.out.println(bst.isBalanced(bst.root));
+//        System.out.println(bst.root.data);
+//        System.out.println(bst.root.left.data);
+//        System.out.println(bst.root.right.data);
+//
+//        bst.remove(3);
+//        bst.remove(2);
+//        bst.remove(5);
+//
+//        System.out.println(bst.isBalanced(bst.root));
+//        System.out.println(bst.size);
 
 
     }
