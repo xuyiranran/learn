@@ -1,18 +1,19 @@
-package learnData.tree;
+package learnData.tree.avl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * 二分搜索树
- *
+ * AVL树
+ * 平衡二叉树
+ * 1、满足所有任意节点的左右子树高度差不大于1
+ * <p>
  * 基本操作:
  * 1、插入元素
  * 2、查询元素
  * 3、删除元素
  */
-public class SimpleBST {
+public class SimpleAVL {
 
     //根节点
     private Node root;
@@ -21,22 +22,23 @@ public class SimpleBST {
 
     private class Node {
         private int data;
-        private Node left;
-        private Node right;
+        private Node left, right;
+        private int height = 1;//节点高度,叶子节点高度为1
 
         public Node(int data) {
             this.data = data;
             this.left = null;
             this.right = null;
+            this.height = 1;
         }
     }
 
-    public SimpleBST(int data) {
+    public SimpleAVL(int data) {
         root = new Node(data);
         size++;
     }
 
-    public SimpleBST() {
+    public SimpleAVL() {
     }
 
     public int getSize() {
@@ -51,6 +53,65 @@ public class SimpleBST {
         root = add(root, data);
     }
 
+    /**
+     * 查询节点高度
+     *
+     * @param node
+     * @return
+     */
+    public int getHeight(Node node) {
+        if (node == null) return 0;
+        return node.height;
+    }
+
+    /**
+     * 判断一棵树是否是二分搜索树
+     * 基于二分搜索树中序遍历是升序的原理,我们可以利用此来判断
+     *
+     * @param node
+     * @return
+     */
+    private boolean isBST(Node node) {
+
+        if (node == null) return true;
+        List<Integer> list = new ArrayList<>();
+        middleOrder(node, list);
+
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i) > list.get(i + 1)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * 中序遍历并将节点元素存放在list中
+     *
+     * @param node
+     * @param list
+     */
+    private void middleOrder(Node node, List<Integer> list) {
+        if (node == null) return;
+        middleOrder(node.left, list);
+        list.add(node.data);
+        middleOrder(node.right, list);
+    }
+
+    /**
+     * 判断节点是否满足AVL要求
+     *
+     * @param node
+     * @return
+     */
+    private boolean isBalanced(Node node) {
+        if (node == null) return true;
+        if (Math.abs(getHeight(node.left) - getHeight(node.right)) > 1) return false;
+        return true;
+    }
+
+    private int getBalanceFactor(Node node) {
+        return getHeight(node.left) - getHeight(node.right);
+    }
+
     private Node add(Node node, int data) {
         if (node == null) {
             size++;
@@ -62,6 +123,25 @@ public class SimpleBST {
             node.right = add(node.right, data);
         } else {
             //我们这里不处理相同元素 所以什么事情都不做
+        }
+
+        //更新height
+        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+
+        //左斜树LL 右旋转操作
+        if (getBalanceFactor(node) > 1 && getBalanceFactor(node.left) >= 0) {
+
+            Node x = node;
+            Node y = node.left;
+            Node z = y.left;
+
+            Node T3 = y.right;
+            y.right = x;
+            x.left = T3;
+
+            x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+            y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+            return y;
         }
         return node;
     }
@@ -201,6 +281,7 @@ public class SimpleBST {
 
     /**
      * 删除任意元素
+     *
      * @param node
      * @param data
      * @return
@@ -208,26 +289,25 @@ public class SimpleBST {
     private Node remove(Node node, int data) {
 
         if (node == null) return null;
-        if (data<node.data){
-            node.left=remove(node.left,data);
+        if (data < node.data) {
+            node.left = remove(node.left, data);
             return node;
-        }
-        else if (data>node.data){
-            node.right=remove(node.right,data);
+        } else if (data > node.data) {
+            node.right = remove(node.right, data);
             return node;
-        }else {
+        } else {
             //data==node.data
             //待删除节点左子树为空
-            if (node.left==null){
-                Node rightNode=node.right;
-                node.right=null;
+            if (node.left == null) {
+                Node rightNode = node.right;
+                node.right = null;
                 size--;
                 return rightNode;
             }
             //待删除节点右子树为空
-            if (node.right==null){
-                Node leftNode=node.left;
-                node.left=null;
+            if (node.right == null) {
+                Node leftNode = node.left;
+                node.left = null;
                 size--;
                 return leftNode;
             }
@@ -235,75 +315,36 @@ public class SimpleBST {
             //1、寻找出待删除节点右子树中最小节点(后继节点)/寻找出待删除节点左子树中最大节点(前驱节点)
             //2、删除右子树的最小节点/删除左子树最大节点
             //3、将后继节点或前驱节点替代待删除节点位置
-            Node successor=minNode(node.right);
-            successor.right=removeMin(node.right);
-            successor.left=node.left;
+            Node successor = minNode(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
             //回收node节点
-            node.left=node.right=null;
+            node.left = node.right = null;
             return successor;
         }
     }
 
     public static void main(String[] args) {
 
-        SimpleBST b=new SimpleBST(10);
-        b.add(5);
-        b.add(2);
-        b.add(15);
-        b.removeMin();
 
-        SimpleBST bst = new SimpleBST(10);
+        SimpleAVL bst = new SimpleAVL(10);
         bst.add(5);
-        bst.add(15);
         bst.add(3);
-        bst.add(8);
-        bst.add(13);
-        bst.add(18);
-        bst.add(4);
-        bst.add(17);
+        bst.add(1);
 
+
+        System.out.println(bst.isBST(bst.root));
+        System.out.println(bst.isBalanced(bst.root));
         System.out.println(bst.getSize());
 
-        bst.preOrder();
-        System.out.println();
-
-        bst.remove(3);
-        bst.middleOrder();
-        System.out.println();
-        bst.remove(5);
-        bst.middleOrder();
-        System.out.println();
-        bst.remove(15);
-        bst.middleOrder();
-        System.out.println();
-        System.out.println(bst.getSize());
-
-//        System.out.println();
-//        System.out.println("max:" + bst.max());
-//        System.out.println("min:" + bst.min());
-//
-//        System.out.println(bst.contains(15));
-//
-//
-//        bst.preOrder();
-//
-//        System.out.println();
-//        System.out.println(bst.getSize());
-//        System.out.println("------");
-//
-//
-//        SimpleBST simpleBST = new SimpleBST(5000);
-//        Random random = new Random();
-//        for (int i = 0; i < 100; i++) {
-//            simpleBST.add(random.nextInt(10000));
-//        }
-//
-//        System.out.println(simpleBST.getSize());
-//        List<Integer> list = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            list.add(simpleBST.removeMin());
-//        }
-//        list.forEach(e -> System.out.print(e + "->"));
+        System.out.println(bst.root.data);
+        System.out.println(bst.root.left.data);
+        System.out.println(bst.root.left.left.data);
+        System.out.println("height");
+        System.out.println(bst.root.height);
+        System.out.println(bst.root.left.height);
+        System.out.println(bst.root.left.left.height);
+        System.out.println(bst.root.right.height);
 
 
     }

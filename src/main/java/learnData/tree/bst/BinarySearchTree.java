@@ -1,4 +1,4 @@
-package learnData.tree;
+package learnData.tree.bst;
 
 public class BinarySearchTree<E extends Comparable> {
 
