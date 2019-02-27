@@ -1,5 +1,7 @@
 package learnData.array;
 
+import sun.jvm.hotspot.debugger.win32.coff.COMDATSelectionTypes;
+
 /**
  * 栈数据结构
  * 1、push()入栈元素
@@ -22,7 +24,7 @@ package learnData.array;
  * 1、基于数组(普通动态数组即可)
  * 2、基于链表(只包含头节点普通链表即可)
  */
-public interface Stack<E> {
+public interface Stack<E extends Comparable<E>> {
 
     public static final int DEFAULT_CAPACITY = 10;
 

@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @param <E>
  */
-public class LinkedList<E> {
+public class LinkedList<E extends Comparable<E>> {
 
 
     /**
@@ -25,7 +25,7 @@ public class LinkedList<E> {
     private Node<E> dummyHead;
 
 
-    private static class Node<E> {
+    private static class Node<E extends Comparable<E>> {
         private E e;
         private Node<E> next;
 
@@ -50,7 +50,7 @@ public class LinkedList<E> {
      */
     public LinkedList(E e) {
         dummyHead = new Node<>();
-        if (e!=null){
+        if (e != null) {
             Node<E> node = new Node<>(e, null);
             head = node;
             size++;
@@ -107,14 +107,30 @@ public class LinkedList<E> {
         return remove(size);
     }
 
+    public void remove(E data) {
 
-    public E get(int index){
+        if (isEmpty()) throw new RuntimeException("空链表");
+        Node pre = dummyHead;
+        while (pre.next != null) {
+            if (pre.next.e.compareTo(data) == 0) {
+                Node delNode=pre.next;
+                pre.next=delNode.next;
+                delNode=null;
+                size--;
+                return;
+            }
+            pre = pre.next;
+        }
+    }
+
+
+    public E get(int index) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("index out of exception");
         }
-        Node<E> cur=dummyHead.next;
+        Node<E> cur = dummyHead.next;
         for (int i = 0; i < index; i++) {
-            cur=cur.next;
+            cur = cur.next;
         }
         return cur.e;
     }
@@ -127,13 +143,13 @@ public class LinkedList<E> {
         return get(size);
     }
 
-    public boolean contains(E e){
-        Node<E> pre=dummyHead;
-        while (pre.next!=null){
-            if (Objects.equals(e,pre.e)){
+    public boolean contains(E e) {
+        Node<E> pre = dummyHead;
+        while (pre.next != null) {
+            if (e.compareTo(pre.next.e) == 0) {
                 return true;
             }
-            pre=pre.next;
+            pre = pre.next;
         }
         return false;
     }
@@ -167,21 +183,22 @@ public class LinkedList<E> {
             linkedList.addFirst(i);
         }
         System.out.println(linkedList.size);
-        linkedList.add(3,999);
+        linkedList.add(3, 999);
         linkedList.remove(9);
-        linkedList.add(5,999);
-        linkedList.add(5,999);
-        linkedList.add(5,999);
+        linkedList.add(5, 999);
+        linkedList.add(5, 999);
+        linkedList.add(5, 999);
+        linkedList.remove(999);
         System.out.println(linkedList);
 
-        Node<Integer> pre=linkedList.dummyHead;
-        while (pre.next!=null){
-            Node<Integer> delNode=pre.next;
-            if (delNode.e==999){
-                pre.next=delNode.next;
-                delNode.next=null;
-            }else {
-                pre=pre.next;
+        Node<Integer> pre = linkedList.dummyHead;
+        while (pre.next != null) {
+            Node<Integer> delNode = pre.next;
+            if (delNode.e == 999) {
+                pre.next = delNode.next;
+                delNode.next = null;
+            } else {
+                pre = pre.next;
             }
         }
 

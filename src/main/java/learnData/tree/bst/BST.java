@@ -137,6 +137,7 @@ public class BST<E extends Comparable<E>> {
         }
         if (e.compareTo(node.e)==0){
             //需要删除的节点
+            size--;
             if (node.left==null)return node.right;
             if (node.right==null)return node.left;
             node.e=min(node.right);
