@@ -25,7 +25,7 @@ public class CommonBST<K extends Comparable<K>, V> {
 
     public void add(K key,V value){
         if (root==null){
-            root=new Node<>();
+            root=new Node<>(key,value);
         }
     }
 
