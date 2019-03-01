@@ -23,11 +23,32 @@ public class CommonBST<K extends Comparable<K>, V> {
         size++;
     }
 
-    public void add(K key,V value){
-        if (root==null){
-            root=new Node<>(key,value);
+    public CommonBST() {
+    }
+
+    public void add(K key, V value) {
+        if (root == null) {
+            root = new Node<>(key, value);
+            size++;
         }
     }
+
+    public V remove() {
+        return null;
+    }
+
+    public boolean contains(K key) {
+        return false;
+    }
+
+    public V get(K key) {
+        return null;
+    }
+
+    public void set(K key, V value) {
+
+    }
+
 
     public int getSize() {
         return size;

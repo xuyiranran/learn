@@ -2,10 +2,19 @@ package learnData.setAndmap;
 
 import learnData.tree.bst.BST;
 
+/**
+ * 基于二分搜索树实现的集合
+ * 1、添加 O(log n)
+ * 2、删除 O(log n)
+ * 3、contains O(log n)
+ * 时间复杂度都是O(log n)性能较好
+ *
+ * @param <E>
+ */
 public class BstSet<E extends Comparable<E>> implements Set<E> {
 
+    //使用二分搜索树实现集合
     private BST<E> bst;
-
 
     public BstSet() {
         bst = new BST<>();
