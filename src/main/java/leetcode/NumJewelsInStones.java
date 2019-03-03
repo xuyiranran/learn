@@ -36,4 +36,23 @@ public class NumJewelsInStones {
         }
         return count;
     }
+
+
+    public int numJewelsInStonesV3(String J, String S) {
+
+        int count = 0;
+        char[] chars = S.toCharArray();
+        int slen = chars.length;
+
+        char[] jchar = J.toCharArray();
+        for (char one : jchar) {
+            for (int i = 0; i < slen; i++) {
+                if (chars[i] == one) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
 }

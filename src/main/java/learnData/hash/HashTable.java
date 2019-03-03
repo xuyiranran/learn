@@ -3,16 +3,22 @@ package learnData.hash;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+/**
+ * 哈希表设计
+ *
+ * @param <K> key通常是String类型,不是必须我这里强制要求
+ * @param <V>
+ */
 public class HashTable<K extends String, V> {
 
+    //TreeMap数组(实际存放数据的数据结构)
     private TreeMap<K, V>[] treeMaps;
 
     //哈希表中元素个数
     private int size;
     //哈希表数组长度
     private int arrayCapacity;
-
-    private static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 97;
 
     public HashTable() {
         treeMaps = new TreeMap[DEFAULT_CAPACITY];
@@ -105,11 +111,13 @@ public class HashTable<K extends String, V> {
         int oldArrayLength = arrayCapacity;
         this.arrayCapacity = newArrayCapacity;
 
+        //初始化新哈希表的treeMap数组
         TreeMap<K, V>[] newTreeMaps = new TreeMap[newArrayCapacity];
         for (int i = 0; i < newTreeMaps.length; i++) {
             newTreeMaps[i] = new TreeMap<>();
         }
 
+        //将原先的数据存放到新的treeMap数组中
         for (int i = 0; i < oldArrayLength; i++) {
             TreeMap<K, V> treeMap = treeMaps[i];
             for (K k : treeMap.keySet()) {
@@ -117,9 +125,16 @@ public class HashTable<K extends String, V> {
                 newTreeMaps[index].put(k, treeMap.get(k));
             }
         }
+        //指向新的treeMap数组地址
         treeMaps = newTreeMaps;
     }
 
+    /**
+     * 哈希函数取数组下标索引地址
+     *
+     * @param k
+     * @return
+     */
     private int hash(K k) {
         return Math.abs(k.hashCode()) % arrayCapacity;
     }
