@@ -12,6 +12,11 @@ public class Stack {
         array = new int[capacity];
     }
 
+    public Stack() {
+        this(10);
+    }
+
+
     public void push(int data) {
         if (size + 1 >= capacity) {
             resize(capacity * 2);
@@ -40,6 +45,19 @@ public class Stack {
 
     public boolean isEmpty() {
         return size == 0;
+    }
+
+
+    @Override
+    public String toString() {
+
+        if (isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append(array[size - 1 - i] + "->");
+        }
+        return sb.toString();
+
     }
 
     //扩容和缩容

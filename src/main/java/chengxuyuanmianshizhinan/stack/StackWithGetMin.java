@@ -8,14 +8,14 @@ package chengxuyuanmianshizhinan.stack;
  * 2、查询栈中最小元素复杂度也为O(1)
  * 使用两个栈实现,其中一个栈作为普通栈来存储元素,另一个栈存放最小元素列表.
  */
-public class MinStack {
+public class StackWithGetMin {
 
     //普通栈
     private Stack simpleStack;
     //最小元素维护栈
     private Stack minStack;
 
-    public MinStack(int capacity) {
+    public StackWithGetMin(int capacity) {
         simpleStack = new Stack(capacity);
         minStack = new Stack(capacity);
     }
@@ -49,16 +49,16 @@ public class MinStack {
 
     public static void main(String[] args) {
 
-        MinStack minStack = new MinStack(10);
+        StackWithGetMin stackWithGetMin = new StackWithGetMin(10);
 
-        minStack.push(1);
-        minStack.push(10);
-        minStack.push(3);
+        stackWithGetMin.push(1);
+        stackWithGetMin.push(10);
+        stackWithGetMin.push(3);
 
 
-        System.out.println(minStack.getMin());
-        minStack.pop();
-        System.out.println(minStack.getMin());
+        System.out.println(stackWithGetMin.getMin());
+        stackWithGetMin.pop();
+        System.out.println(stackWithGetMin.getMin());
 
 
     }
