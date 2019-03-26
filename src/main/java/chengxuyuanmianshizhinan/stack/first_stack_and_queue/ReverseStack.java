@@ -1,4 +1,4 @@
-package chengxuyuanmianshizhinan.stack;
+package chengxuyuanmianshizhinan.stack.first_stack_and_queue;
 
 /**
  * 反转栈数据元素

@@ -1,4 +1,4 @@
-package chengxuyuanmianshizhinan.stack;
+package chengxuyuanmianshizhinan.stack.first_stack_and_queue;
 
 /**
  * 利用两个栈实现队列功能

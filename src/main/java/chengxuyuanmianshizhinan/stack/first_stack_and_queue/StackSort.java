@@ -1,4 +1,4 @@
-package chengxuyuanmianshizhinan.stack;
+package chengxuyuanmianshizhinan.stack.first_stack_and_queue;
 
 /**
  * 利用一个额外的栈,将栈里面的元素排序
