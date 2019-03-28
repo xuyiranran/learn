@@ -50,7 +50,7 @@ public class LinkedList<E> {
      */
     public LinkedList(E e) {
         dummyHead = new Node<>();
-        if (e!=null){
+        if (e != null) {
             Node<E> node = new Node<>(e, null);
             head = node;
             size++;
@@ -59,7 +59,7 @@ public class LinkedList<E> {
     }
 
     public LinkedList() {
-        this(null);
+        dummyHead = new Node<>();
     }
 
     public void add(int index, E e) {
@@ -71,8 +71,8 @@ public class LinkedList<E> {
         for (int i = 0; i < index; i++) {
             pre = pre.next;
         }
-        addNode.next = pre.next;
-        pre.next = addNode;
+        pre.next = new Node(e, pre.next);
+        head = dummyHead.next;
         size++;
     }
 
@@ -95,7 +95,8 @@ public class LinkedList<E> {
         }
         Node<E> removeData = pre.next;
         pre.next = removeData.next;
-        removeData.next = null;
+        head = dummyHead.next;
+        size--;
         return removeData.e;
     }
 
@@ -108,13 +109,13 @@ public class LinkedList<E> {
     }
 
 
-    public E get(int index){
+    public E get(int index) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("index out of exception");
         }
-        Node<E> cur=dummyHead.next;
+        Node<E> cur = dummyHead.next;
         for (int i = 0; i < index; i++) {
-            cur=cur.next;
+            cur = cur.next;
         }
         return cur.e;
     }
@@ -127,13 +128,13 @@ public class LinkedList<E> {
         return get(size);
     }
 
-    public boolean contains(E e){
-        Node<E> pre=dummyHead;
-        while (pre.next!=null){
-            if (Objects.equals(e,pre.e)){
+    public boolean contains(E e) {
+        Node<E> pre = dummyHead;
+        while (pre.next != null) {
+            if (Objects.equals(e, pre.e)) {
                 return true;
             }
-            pre=pre.next;
+            pre = pre.next;
         }
         return false;
     }
@@ -162,26 +163,26 @@ public class LinkedList<E> {
     public static void main(String[] args) {
 
         LinkedList<Integer> linkedList = new LinkedList<>();
-        System.out.println(linkedList.size);
         for (int i = 0; i < 10; i++) {
             linkedList.addFirst(i);
         }
-        System.out.println(linkedList.size);
-        linkedList.add(3,999);
+        linkedList.remove(0);
+        System.out.println(linkedList);
+        linkedList.add(3, 999);
         linkedList.remove(9);
-        linkedList.add(5,999);
-        linkedList.add(5,999);
-        linkedList.add(5,999);
+        linkedList.add(5, 999);
+        linkedList.add(5, 999);
+        linkedList.add(5, 999);
         System.out.println(linkedList);
 
-        Node<Integer> pre=linkedList.dummyHead;
-        while (pre.next!=null){
-            Node<Integer> delNode=pre.next;
-            if (delNode.e==999){
-                pre.next=delNode.next;
-                delNode.next=null;
-            }else {
-                pre=pre.next;
+        Node<Integer> pre = linkedList.dummyHead;
+        while (pre.next != null) {
+            Node<Integer> delNode = pre.next;
+            if (delNode.e == 999) {
+                pre.next = delNode.next;
+                delNode.next = null;
+            } else {
+                pre = pre.next;
             }
         }
 

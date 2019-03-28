@@ -1,25 +1,25 @@
 package chengxuyuanmianshizhinan.stack;
 
 /**
- * @param <T>
+ * @param <E>
  */
-public class LinkedList<T extends Comparable> {
+public class LinkedList<E extends Comparable> {
 
-    private Node<T> head;//头节点
-    private Node<T> dummyHead;//虚拟头节点(辅助节点)
+    private Node<E> head;//头节点
+    private Node<E> dummyHead;//虚拟头节点(辅助节点)
     private int size;//链表大小
 
-    private static class Node<T> {
+    private static class Node<E> {
 
-        private T data;
-        private Node<T> next;
+        private E data;
+        private Node<E> next;
 
-        public Node(T data, Node next) {
+        public Node(E data, Node next) {
             this.data = data;
             this.next = next;
         }
 
-        public Node(T data) {
+        public Node(E data) {
             this(data, null);
         }
     }
@@ -37,7 +37,7 @@ public class LinkedList<T extends Comparable> {
     }
 
     //新增头节点
-    public void addFirst(T data) {
+    public void addFirst(E data) {
         //如果头节点为空
         head = new Node(data, head);
         dummyHead.next = head;
@@ -45,7 +45,7 @@ public class LinkedList<T extends Comparable> {
     }
 
     //新增尾节点
-    public void addLast(T data) {
+    public void addLast(E data) {
         Node cur = dummyHead;
         while (cur.next != null) {
             cur = cur.next;
@@ -56,7 +56,7 @@ public class LinkedList<T extends Comparable> {
     }
 
     //添加元素到指定下标
-    public void addKth(int index, T data) {
+    public void addKth(int index, E data) {
         if (index > getSize()) throw new IllegalArgumentException("不合法下标");
         Node cur = dummyHead;
         for (int i = 0; i < index; i++) {
@@ -68,28 +68,30 @@ public class LinkedList<T extends Comparable> {
     }
 
     //删除头节点
-    public T removeFirst() {
+    public E removeFirst() {
         if (isEmpty()) throw new IndexOutOfBoundsException("空链表");
-        Node<T> node = head;
+        Node<E> node = head;
         head = dummyHead.next.next;
         dummyHead.next = head;
+        size--;
         return node.data;
     }
 
     //删除最后一个节点
-    public T removeLast() {
+    public E removeLast() {
         if (isEmpty()) throw new IndexOutOfBoundsException("空链表");
-        Node<T> cur = dummyHead;
+        Node<E> cur = dummyHead;
         while (cur.next.next != null) {
             cur = cur.next;
         }
         cur.next = null;
         head = dummyHead.next;
+        size--;
         return cur.data;
     }
 
     //删除指定下标元素
-    public T removeKth(int index) {
+    public E removeKth(int index) {
         if (isEmpty()) throw new IndexOutOfBoundsException("空链表");
         if (index < 0 || index >= getSize()) throw new IllegalArgumentException("不合法下标" + index);
 
@@ -97,17 +99,50 @@ public class LinkedList<T extends Comparable> {
         for (int i = 0; i < index; i++) {
             cur = cur.next;
         }
-        Node<T> delNode = cur.next;
+        Node<E> delNode = cur.next;
         cur.next = cur.next.next;
         head = dummyHead.next;
+        size--;
         return delNode.data;
 
+    }
+
+    //获取头节点元素
+    public E getFirst() {
+        return getKth(0);
+    }
+
+    //获取尾节点元素
+    public E getLast() {
+        return getKth(getSize() - 1);
+    }
+
+    //获取指定下标元素
+    public E getKth(int index) {
+        if (isEmpty()) throw new IndexOutOfBoundsException("空链表");
+        if (index < 0 || index >= getSize()) throw new IllegalArgumentException("不合法下标" + index);
+        Node<E> cur = dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        return cur.data;
+    }
+
+
+    //查询链表是否包含指定元素
+    public boolean contains(E data) {
+        if (isEmpty()) throw new IndexOutOfBoundsException("空链表");
+        Node<E> cur = dummyHead.next;
+        while (cur != null) {
+            if (cur.data.equals(data)) return true;
+            cur = cur.next;
+        }
+        return false;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         Node cur = dummyHead;
         while (cur.next != null) {
             sb.append(cur.next.data + "->");
@@ -148,6 +183,12 @@ public class LinkedList<T extends Comparable> {
         System.out.println("---");
 
         linkedList.print(linkedList.head);
+
+        System.out.println("----");
+        System.out.println(linkedList.getFirst());
+        System.out.println(linkedList.getSize());
+        System.out.println(linkedList.getLast());
+        System.out.println(linkedList.contains("world"));
 
     }
 
