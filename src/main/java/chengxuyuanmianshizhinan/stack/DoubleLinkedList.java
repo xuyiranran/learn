@@ -1,10 +1,15 @@
 package chengxuyuanmianshizhinan.stack;
 
+/**
+ * 双链表
+ *
+ * @param <E>
+ */
 public class DoubleLinkedList<E extends Comparable> {
 
 
     private Node<E> head, tail;//头尾节点
-    private int size;
+    private int size;//链表size
 
     private static class Node<E> {
         private E data;//节点元素
@@ -30,6 +35,7 @@ public class DoubleLinkedList<E extends Comparable> {
         return size == 0;
     }
 
+    //添加头节点
     public void addFirst(E data) {
         //如果是空链表,头节点也就是尾节点
         if (isEmpty()) {
@@ -45,6 +51,7 @@ public class DoubleLinkedList<E extends Comparable> {
         size++;
     }
 
+    //添加尾节点
     public void addLast(E data) {
         //如果是空链表,头节点也就是尾节点
         if (isEmpty()) {
@@ -58,6 +65,7 @@ public class DoubleLinkedList<E extends Comparable> {
         size++;
     }
 
+    //添加元素到指定下标
     public void addKth(int index, E data) {
         if (index < 0 || index > getSize()) throw new IllegalArgumentException("不合法下标");
         if (index == 0) {
@@ -106,6 +114,7 @@ public class DoubleLinkedList<E extends Comparable> {
     }
 
 
+    //删除头节点
     public E removeFirst() {
         if (isEmpty()) throw new IllegalArgumentException("空链表");
         Node<E> removeNode = head;
@@ -115,6 +124,7 @@ public class DoubleLinkedList<E extends Comparable> {
         return removeNode.data;
     }
 
+    //删除尾节点
     public E removeLast() {
         if (isEmpty()) throw new IllegalArgumentException("空链表");
         Node<E> removeNode = tail;
@@ -124,7 +134,7 @@ public class DoubleLinkedList<E extends Comparable> {
         return removeNode.data;
     }
 
-
+    //删除指定下标元素
     public E removeKth(int index) {
         if (isEmpty()) throw new IllegalArgumentException("空链表");
         if (index == 0) return removeFirst();
@@ -149,7 +159,6 @@ public class DoubleLinkedList<E extends Comparable> {
         }
         return false;
     }
-
 
     @Override
     public String toString() {
@@ -186,7 +195,6 @@ public class DoubleLinkedList<E extends Comparable> {
         System.out.println(linkedList.toString());
         linkedList.removeLast();
         System.out.println(linkedList.toString());
-
 
     }
 
