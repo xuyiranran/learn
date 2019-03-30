@@ -4,7 +4,7 @@ package learnData.array;
  * 基于数组实现栈接口
  * @param <E>
  */
-public class ArrayStack<E> implements Stack<E>{
+public class ArrayStack<E extends Comparable<E>> implements Stack<E>{
 
     //数组
     private DynamicArray<E> dynamicArray;

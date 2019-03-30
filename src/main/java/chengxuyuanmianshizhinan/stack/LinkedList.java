@@ -132,6 +132,13 @@ public class LinkedList<K extends Comparable, V> {
         return cur.value;
     }
 
+    //获取倒数kth节点元素
+    public V getLastKth(int lastKth) {
+        if (lastKth < 1 || lastKth > size) throw new IllegalArgumentException("不合法下标");
+        //倒数lastKth正数就是n+1-lastKth,对应下标是n-lastKth
+        return getKth(size - lastKth);
+    }
+
 
     //查询链表是否包含指定元素
     public boolean contains(K key) {

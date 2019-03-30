@@ -3,7 +3,7 @@ package learnData.unionfindset;
 import java.util.Random;
 
 /**
- * 直接基于
+ * 直接基于数组实现没有任何优化
  *
  */
 public class UFSet1 implements UFSet {

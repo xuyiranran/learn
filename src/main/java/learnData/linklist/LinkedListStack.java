@@ -7,7 +7,7 @@ import learnData.array.Stack;
  * Stack
  * @param <E>
  */
-public class LinkedListStack<E> implements Stack<E> {
+public class LinkedListStack<E extends Comparable<E>> implements Stack<E> {
 
     private LinkedList<E> linkedList=new LinkedList<>();
 

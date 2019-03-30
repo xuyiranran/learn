@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @param <E>
  */
-public class LinkedList<E> {
+public class LinkedList<E extends Comparable<E>> {
 
 
     /**
@@ -25,7 +25,7 @@ public class LinkedList<E> {
     private Node<E> dummyHead;
 
 
-    private static class Node<E> {
+    private static class Node<E extends Comparable<E>> {
         private E e;
         private Node<E> next;
 
@@ -108,6 +108,21 @@ public class LinkedList<E> {
         return remove(size);
     }
 
+    public void remove(E data) {
+
+        if (isEmpty()) throw new RuntimeException("空链表");
+        Node pre = dummyHead;
+        while (pre.next != null) {
+            if (pre.next.e.compareTo(data) == 0) {
+                Node delNode = pre.next;
+                pre.next = delNode.next;
+                delNode = null;
+                size--;
+                return;
+            }
+            pre = pre.next;
+        }
+    }
 
     public E get(int index) {
         if (index < 0 || index > size) {
@@ -131,7 +146,7 @@ public class LinkedList<E> {
     public boolean contains(E e) {
         Node<E> pre = dummyHead;
         while (pre.next != null) {
-            if (Objects.equals(e, pre.e)) {
+            if (e.compareTo(pre.next.e) == 0) {
                 return true;
             }
             pre = pre.next;
@@ -166,13 +181,7 @@ public class LinkedList<E> {
         for (int i = 0; i < 10; i++) {
             linkedList.addFirst(i);
         }
-        linkedList.remove(0);
-        System.out.println(linkedList);
-        linkedList.add(3, 999);
-        linkedList.remove(9);
-        linkedList.add(5, 999);
-        linkedList.add(5, 999);
-        linkedList.add(5, 999);
+        System.out.println(linkedList.size);
         System.out.println(linkedList);
 
         Node<Integer> pre = linkedList.dummyHead;

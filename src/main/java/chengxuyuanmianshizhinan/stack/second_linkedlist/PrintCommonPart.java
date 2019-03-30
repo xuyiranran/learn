@@ -2,6 +2,12 @@ package chengxuyuanmianshizhinan.stack.second_linkedlist;
 
 /**
  * 打印链表共同部分
+ * <p>
+ * 算法思路:费别从head1和head2开始开始比较
+ * 循环条件为head1和head2都不为空
+ * 1、如果head1大于head2,那么head2往后移动一位
+ * 2、如果head1小于head2,那么head1往后移动一位
+ * 3、如果head1等于head2,那么head1和head2都往后移动一位
  */
 public class PrintCommonPart {
 
