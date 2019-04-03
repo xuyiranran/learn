@@ -1,5 +1,8 @@
 package chengxuyuanmianshizhinan.stack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 二分搜索树
  */
@@ -117,12 +120,14 @@ public class Bst<K extends Comparable, V> {
     public static void main(String[] args) {
 
 
-        Bst<Integer, String> bst = new Bst<>();
-        bst.add(5, "5");
-        bst.add(4, "4");
-        bst.add(10, "10");
+        Map<Long,String> map=new HashMap<>();
+        map.put(10L,"hello");
+        System.out.println(map.get(10l));
+        System.out.println(map.get(Long.valueOf(10l)));
+        System.out.println(map.get(Long.valueOf(10)));
 
-        System.out.println(bst.root.value);
+
+
 
     }
 
