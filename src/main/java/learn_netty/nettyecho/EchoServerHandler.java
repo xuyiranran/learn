@@ -1,62 +1,36 @@
 package learn_netty.nettyecho;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandler;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.CharsetUtil;
+import io.netty.util.ReferenceCountUtil;
+import io.netty.util.ReferenceCounted;
 
-public class EchoServerHandler implements ChannelInboundHandler {
+import java.nio.ByteBuffer;
 
-    @Override
-    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
-    }
-
-    @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-
-    }
-
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
-    }
-
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-
-    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
+        ByteBuf byteBuf = (ByteBuf) msg;
+        System.out.println(byteBuf.toString(CharsetUtil.UTF_8));
+        ctx.write(byteBuf);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-
-    }
-
-    @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-
-    }
-
-    @Override
-    public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
-
-    }
-
-    @Override
-    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-
-    }
-
-    @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+        ctx.flush();
 
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-
+        cause.printStackTrace();
+        ctx.close();
     }
 }

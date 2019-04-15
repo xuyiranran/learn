@@ -18,10 +18,8 @@ public class EchoServer {
         Socket socket = serverSocket.accept();
 
         //通过socket套接字获取输入输出流
-        InputStream inputStream = socket.getInputStream();
-        OutputStream outputStream = socket.getOutputStream();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        PrintWriter printWriter = new PrintWriter(outputStream);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
 
         while (true) {
             //读取客户端数据
@@ -34,7 +32,35 @@ public class EchoServer {
             }
         }
 
+//        while (true){
+//            processRequest(socket);
+//        }
+
     }
 
+    private static void processRequest(Socket request){
 
+        new Thread(()->{
+            //通过socket套接字获取输入输出流
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                PrintWriter printWriter = new PrintWriter(request.getOutputStream());
+                while (true) {
+                    //读取客户端数据
+                    String line = bufferedReader.readLine();
+                    if (line != null) {
+                        System.out.println("client:" + line);
+                        //响应客户端数据
+                        printWriter.println(line.toUpperCase());
+                        printWriter.flush();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }).start();
+
+    }
 }

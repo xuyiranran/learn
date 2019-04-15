@@ -15,6 +15,21 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("client channelRegistered");
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("client channelInactive");
+    }
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("client channelUnregistered");
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
 
         System.out.println("receive:"+msg.toString(CharsetUtil.UTF_8));
