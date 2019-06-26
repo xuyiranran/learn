@@ -33,7 +33,7 @@ public class PressSubject {
     public void notifyAll(String message) {
         if (!pressObservers.isEmpty()) {
             for (PressObserver pressObserver : pressObservers) {
-                pressObserver.getMessage(message);
+                pressObserver.currentMessage(message);
             }
         }
     }
