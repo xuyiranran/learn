@@ -6,6 +6,17 @@ package learn_java_design.strategy_design.duck;
  */
 public abstract class Duck {
 
+    FlyBehavior flyBehavior;
+    SwimBehavior swimBehavior;
+
+    public void setSwimBehavior(SwimBehavior swimBehavior) {
+        this.swimBehavior = swimBehavior;
+    }
+
+    public void setFlyBehavior(FlyBehavior flyBehavior) {
+        this.flyBehavior = flyBehavior;
+    }
+
     abstract void fly();
 
     abstract void swim();
