@@ -1,4 +1,4 @@
-package learn_leetcode;
+package learn_leetcode.stack;
 
 import java.util.Stack;
 

@@ -1,4 +1,4 @@
-package learn_leetcode;
+package learn_leetcode.queue;
 
 import java.util.Arrays;
 
