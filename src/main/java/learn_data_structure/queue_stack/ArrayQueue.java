@@ -1,5 +1,8 @@
 package learn_data_structure.queue_stack;
 
+/**
+ * 基于循环数组实现队列
+ */
 public class ArrayQueue implements Queue {
 
 
@@ -55,9 +58,13 @@ public class ArrayQueue implements Queue {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        while ((end + 1) % size != start) {
-            sb.append(data[start] + "->");
-            start++;
+//        for (int i = start; i != end; i = (i + 1) % capacity) {
+//            sb.append(data[i] + "->");
+//        }
+
+        //这种循环方式相对比较简单
+        for (int i = 0; i < size; i++) {
+            sb.append(data[(i + start) % capacity] + "==>");
         }
         return sb.toString();
     }
@@ -65,19 +72,20 @@ public class ArrayQueue implements Queue {
     public static void main(String[] args) {
 
 
-        Queue queue = new ArrayQueue(3);
+        Queue queue = new ArrayQueue(5);
 
         queue.enqueue(1);
         queue.enqueue(2);
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
         queue.enqueue(3);
         queue.enqueue(4);
-        System.out.println(queue.dequeue());
+        queue.dequeue();
         queue.enqueue(5);
 
-        System.out.println(queue.dequeue());
+        System.out.println(queue.size());
+        System.out.println(queue.toString());
 
+
+        System.out.println(queue.dequeue());
         System.out.println(queue.dequeue());
 
 
