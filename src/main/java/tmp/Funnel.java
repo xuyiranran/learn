@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 漏斗算法简单实现
+ */
 @Data
 public class Funnel {
 
@@ -28,6 +31,7 @@ public class Funnel {
         this.lastConsumerTime = System.currentTimeMillis() / 1000;
     }
 
+    //腾出空间
     public void makeSpace() {
 
         long now = System.currentTimeMillis() / 1000;
@@ -42,6 +46,7 @@ public class Funnel {
         if (leftCapacity > capacity) leftCapacity = capacity;
     }
 
+    //装水(类似请求)
     public boolean watering(int water) {
         makeSpace();
         if (leftCapacity > water) {

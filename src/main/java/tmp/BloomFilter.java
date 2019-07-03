@@ -1,30 +1,36 @@
 package tmp;
 
-import com.google.gson.Gson;
-import sun.jvm.hotspot.utilities.BitMap;
-
 import java.util.BitSet;
 import java.util.Objects;
+
+/**
+ * 布隆过滤器简单实现
+ */
 
 public class BloomFilter {
 
 
-    private int capacity;
+    //期望存放的元素
     private int expect;
+    //位数组长度
+    private int capacity;
+    //位数组
     private BitSet bitSet;
 
     public BloomFilter(int expect) {
-        this.expect = expect;
         this.capacity = expect * 2;
+        this.expect=expect;
         bitSet = new BitSet(capacity);
     }
 
+    //添加元素
     public void add(String string) {
         bitSet.set(hash1(string));
         bitSet.set(hash2(string));
     }
 
 
+    //判断元素是否存在集合内
     public boolean exist(String string) {
         boolean hash1 = bitSet.get(hash1(string));
         boolean hash2 = bitSet.get(hash1(string));
