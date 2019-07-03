@@ -28,6 +28,7 @@ public class LinkedListQueue implements Queue {
 
     }
 
+    //将元素添加到链表尾部
     @Override
     public void enqueue(int element) {
         if (isEmpty()) {
@@ -37,9 +38,9 @@ public class LinkedListQueue implements Queue {
             tail = tail.next;
         }
         size++;
-
     }
 
+    //删除链表头元素
     @Override
     public int dequeue() {
         checkEmpty();
