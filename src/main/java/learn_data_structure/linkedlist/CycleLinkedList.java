@@ -89,16 +89,9 @@ public class CycleLinkedList {
         list.add(4);
 
         System.out.println(list.toString());
-
-
         System.out.println(list.remove());
         System.out.println(list.remove());
-
         System.out.println(list.toString());
-
-        System.out.println(System.currentTimeMillis());
-
-
     }
 
 }

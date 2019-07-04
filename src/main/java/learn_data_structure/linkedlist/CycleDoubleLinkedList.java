@@ -51,7 +51,6 @@ public class CycleDoubleLinkedList {
     }
 
     public int remove() {
-
         if (isEmpty()) throw new IllegalStateException("空链表");
         int ret = head.value;
         if (size == 1) {
@@ -82,7 +81,6 @@ public class CycleDoubleLinkedList {
             sb.append(cur.value + "->");
             cur = cur.next;
         }
-
         return sb.toString();
     }
 
@@ -96,13 +94,9 @@ public class CycleDoubleLinkedList {
         list.add(4);
         list.add(5);
         System.out.println(list.toString());
-
         System.out.println(list.remove());
         System.out.println(list.remove());
-
         System.out.println(list.toString());
-
-
     }
 
 
