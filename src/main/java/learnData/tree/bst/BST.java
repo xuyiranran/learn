@@ -1,6 +1,8 @@
 package learnData.tree.bst;
 
 
+import java.util.LinkedList;
+
 /**
  * 二分搜索树实现
  *
@@ -240,6 +242,14 @@ public class BST<E extends Comparable<E>> {
         bst.midOrder();
         System.out.println();
         bst.afterOrder();
+
+
+        LinkedList<Integer> linkedList=new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+
+
 
     }
 

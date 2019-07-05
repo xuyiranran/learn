@@ -55,10 +55,30 @@ public class BST {
         return node;
     }
 
-    public void remove(int value){
+    public void remove(int value) {
+
 
     }
 
+    private Node removeNode(Node node, int value) {
+
+        int cmp = value - node.value;
+        if (cmp < 0) {
+            node.left = removeNode(node.left, value);
+        } else if (cmp > 0) {
+            node.right = removeNode(node.right, value);
+        } else {
+            Node removeNode = node;
+            if (node.left == null) {
+                return node.right;
+            } else if (node.right == null) {
+                return node.left;
+            } else {
+
+            }
+        }
+        return null;
+    }
 
 
     @Override
