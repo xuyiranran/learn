@@ -1,7 +1,11 @@
 package learn_leetcode.linkedlist;
 
 /**
- * 合并两个有序的链表
+ * 合并两个有序的链表[1,3,5],[2,4,8]-->[1,2,3,4,5,8]
+ * <p>
+ * 1、正常思维将链表所有元素放入数组排序后重新插入新新链表.
+ * <p>
+ * 2、优化解法可以使使用双指针
  */
 public class MergeLinkedList {
 
@@ -37,14 +41,15 @@ public class MergeLinkedList {
     }
 
     public static Node merge(Node left, Node right) {
-
+        if (left == null) return right;
+        if (right == null) return left;
         Node head = null, tail = null;
         Node curLeft = left;
         Node curRight = right;
         while (curLeft != null && curRight != null) {
             if (curLeft.value <= curRight.value) {
                 if (head == null) {
-                    head =tail= new Node(curLeft.value);
+                    head = tail = new Node(curLeft.value);
                 } else {
                     tail.next = new Node(curLeft.value);
                     tail = tail.next;
@@ -52,7 +57,7 @@ public class MergeLinkedList {
                 curLeft = curLeft.next;
             } else {
                 if (head == null) {
-                    head = tail=new Node(curRight.value);
+                    head = tail = new Node(curRight.value);
                 } else {
                     tail.next = new Node(curRight.value);
                     tail = tail.next;
