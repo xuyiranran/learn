@@ -40,6 +40,22 @@ public class ArrayUnionFind implements UnionFind {
     //返回元素所对应的的集合
     private int findSet(int value) {
         return data[value];
-
     }
+
+
+    public static void main(String[] args) {
+
+        UnionFind unionFind = new ArrayUnionFind(10);
+        System.out.println(unionFind.isConnetion(1, 3));
+        unionFind.union(1, 3);
+        unionFind.union(3, 5);
+        System.out.println(unionFind.isConnetion(1, 5));
+        unionFind.union(5, 9);
+
+        for (int i = 0; i < 10; i++) {
+            System.out.print(i + "、");
+            System.out.print(((ArrayUnionFind) unionFind).data[i] + "、");
+        }
+    }
+
 }

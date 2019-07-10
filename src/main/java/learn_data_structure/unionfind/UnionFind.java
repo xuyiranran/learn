@@ -7,7 +7,20 @@ package learn_data_structure.unionfind;
  */
 public interface UnionFind {
 
-    void union(int a, int b);
+    /**
+     * 合并操作,将first和second两个元素所在的集合划分在同一集合下
+     *
+     * @param first
+     * @param second
+     */
+    void union(int first, int second);
 
-    boolean isConnetion(int a, int b);
+    /**
+     * 判断两个元素是否在同一个集合
+     *
+     * @param first
+     * @param second
+     * @return
+     */
+    boolean isConnetion(int first, int second);
 }
