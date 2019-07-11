@@ -1,5 +1,7 @@
 package learn_data_structure.tree;
 
+import java.util.Random;
+
 /**
  * avl平衡二叉树
  * <p>
@@ -119,7 +121,23 @@ public class AVL {
             }
             //LR
             if (node.left.right != null) {
-
+                Node x = node;
+                Node y = node.left;
+                Node z = node.left.right;
+                Node t1 = x.right;
+                Node t2 = y.left;
+                Node t3 = z.left;
+                Node t4 = z.right;
+                z.left = y;
+                z.right = x;
+                y.left = t2;
+                y.right = t3;
+                x.left = t4;
+                x.right = t1;
+                updateHeight(x);
+                updateHeight(y);
+                updateHeight(z);
+                return z;
             }
         } else if (balance < -1) {
             //RR
@@ -133,12 +151,25 @@ public class AVL {
             //RL
             if (node.right.left != null) {
 
-                Node y=node.left;
-                Node z=y.right;
-                RR(y,z);
+                Node x = node;
+                Node y = node.right;
+                Node z = node.right.left;
+
+                Node t1 = x.left;
+                Node t2 = y.right;
+                Node t3 = z.left;
+                Node t4 = z.right;
+
+                z.left = x;
+                z.right = y;
+                x.left = t1;
+                x.right = t3;
+                y.left = t4;
+                y.right = t2;
+                updateHeight(x);
                 updateHeight(y);
                 updateHeight(z);
-
+                return z;
 
             }
         } else {
@@ -160,6 +191,7 @@ public class AVL {
     }
 
     private void updateHeight(Node node) {
+        if (node == null) return;
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
     }
 
@@ -234,19 +266,88 @@ public class AVL {
         } else if (cmp > 0) {
             node.right = removeNode(node.right, value);
         } else {
+            Node result;
             //删除操作
             size--;
             if (node.left == null) {
-                return node.right;
+                result = node.right;
+            } else if (node.right == null) {
+                result = node.left;
+            } else {
+                Node leftNode = node.left;
+                Node rightMinNode = removeMin(node.right);
+                rightMinNode.left = leftNode;
+                node.left = node.right = null;
+                result = rightMinNode;
+                size++;
             }
-            if (node.right == null) {
-                return node.left;
+            //获取当前节点的平衡因子
+            int balance = getBalance(result);
+            //如果balance>1表示左斜
+            if (balance > 1) {
+                //LL
+                if (result.left.left != null) {
+                    Node y = result.left;
+                    Node t3 = y.right;
+                    y.right = result;
+                    result.left = t3;
+                    return y;
+                }
+                //LR
+                if (result.left.right != null) {
+                    Node x = result;
+                    Node y = result.left;
+                    Node z = result.left.right;
+                    Node t1 = x.right;
+                    Node t2 = y.left;
+                    Node t3 = z.left;
+                    Node t4 = z.right;
+                    z.left = y;
+                    z.right = x;
+                    y.left = t2;
+                    y.right = t3;
+                    x.left = t4;
+                    x.right = t1;
+                    updateHeight(x);
+                    updateHeight(y);
+                    updateHeight(z);
+                    return z;
+                }
+
+            } else if (balance < -1) {
+
+                if (result.right.right != null) {
+
+                    Node y = result.right;
+                    Node t2 = y.left;
+                    result.right = t2;
+                    y.left = result;
+                    return y;
+
+                }
+                if (result.right.left != null) {
+                    Node x = result;
+                    Node y = result.right;
+                    Node z = result.right.left;
+                    Node t1 = x.left;
+                    Node t2 = y.right;
+                    Node t3 = z.left;
+                    Node t4 = z.right;
+                    z.left = x;
+                    z.right = y;
+                    x.left = t1;
+                    x.right = t3;
+                    y.left = t4;
+                    y.right = t2;
+                    updateHeight(x);
+                    updateHeight(y);
+                    updateHeight(z);
+                    return z;
+                }
+            } else {
+                updateHeight(result);
             }
-            Node leftNode = node.left;
-            Node rightMinNode = removeMin(node.right);
-            rightMinNode.left = leftNode;
-            node.left = node.right = null;
-            return rightMinNode;
+            return result;
         }
         return node;
     }
@@ -290,11 +391,12 @@ public class AVL {
 
 
         AVL avl = new AVL();
-        avl.add(1);
-        avl.add(2);
-        avl.add(3);
-        avl.add(4);
-        avl.add(5);
+
+        Random random = new Random(Integer.MAX_VALUE);
+        for (int i = 0; i < 100; i++) {
+            avl.add(random.nextInt(100));
+        }
+
 
         System.out.println(avl.root.value);
         System.out.println(avl.root.right.value);
@@ -302,6 +404,21 @@ public class AVL {
         System.out.println();
         System.out.println(avl.isBst());
         System.out.println(avl.isBalanceTree());
+        System.out.println("size:"+avl.size);
+
+        System.out.println("===============");
+        for (int i = 0; i < 30; i++) {
+            avl.remove(random.nextInt(100));
+        }
+
+        System.out.println(avl.root.value);
+        System.out.println(avl.root.right.value);
+        avl.middleOrder();
+        System.out.println();
+        System.out.println(avl.isBst());
+        System.out.println(avl.isBalanceTree());
+        System.out.println("size:"+avl.size);
+
     }
 
 }
