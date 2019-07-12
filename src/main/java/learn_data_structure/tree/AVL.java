@@ -1,5 +1,7 @@
 package learn_data_structure.tree;
 
+import org.omg.CORBA.NO_IMPLEMENT;
+
 import java.util.Random;
 
 /**
@@ -113,63 +115,71 @@ public class AVL {
         if (balance > 1) {
             //LL
             if (node.left.left != null) {
-                Node left = node.left;
-                LL(node, left);
-                updateHeight(node);
-                updateHeight(left);
-                return left;
+//                Node left = node.left;
+//                LL(node, left);
+//                updateHeight(node);
+//                updateHeight(left);
+//                return left;
+                return LL(node);
             }
             //LR
             if (node.left.right != null) {
-                Node x = node;
-                Node y = node.left;
-                Node z = node.left.right;
-                Node t1 = x.right;
-                Node t2 = y.left;
-                Node t3 = z.left;
-                Node t4 = z.right;
-                z.left = y;
-                z.right = x;
-                y.left = t2;
-                y.right = t3;
-                x.left = t4;
-                x.right = t1;
-                updateHeight(x);
-                updateHeight(y);
-                updateHeight(z);
-                return z;
+//                Node x = node;
+//                Node y = node.left;
+//                Node z = node.left.right;
+//                Node t1 = x.right;
+//                Node t2 = y.left;
+//                Node t3 = z.left;
+//                Node t4 = z.right;
+//                z.left = y;
+//                z.right = x;
+//                y.left = t2;
+//                y.right = t3;
+//                x.left = t4;
+//                x.right = t1;
+//                updateHeight(x);
+//                updateHeight(y);
+//                updateHeight(z);
+                node.left = RR(node.left);
+                return LL(node);
+
+//                return z;
             }
         } else if (balance < -1) {
             //RR
             if (node.right.right != null) {
-                Node rightNode = node.right;
-                RR(node, rightNode);
-                updateHeight(node);
-                updateHeight(rightNode);
-                return rightNode;
+//                Node rightNode = node.right;
+//                RR(node, rightNode);
+//                updateHeight(node);
+//                updateHeight(rightNode);
+//                return rightNode;
+                return RR(node);
             }
             //RL
             if (node.right.left != null) {
 
-                Node x = node;
-                Node y = node.right;
-                Node z = node.right.left;
+//                Node x = node;
+//                Node y = node.right;
+//                Node z = node.right.left;
+//
+//                Node t1 = x.left;
+//                Node t2 = y.right;
+//                Node t3 = z.left;
+//                Node t4 = z.right;
+//
+//                z.left = x;
+//                z.right = y;
+//                x.left = t1;
+//                x.right = t3;
+//                y.left = t4;
+//                y.right = t2;
+//                updateHeight(x);
+//                updateHeight(y);
+//                updateHeight(z);
 
-                Node t1 = x.left;
-                Node t2 = y.right;
-                Node t3 = z.left;
-                Node t4 = z.right;
-
-                z.left = x;
-                z.right = y;
-                x.left = t1;
-                x.right = t3;
-                y.left = t4;
-                y.right = t2;
-                updateHeight(x);
-                updateHeight(y);
-                updateHeight(z);
-                return z;
+                node.right = LL(node.right);
+                return RR(node);
+//                return z;
 
             }
         } else {
@@ -193,6 +203,28 @@ public class AVL {
     private void updateHeight(Node node) {
         if (node == null) return;
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+    }
+
+
+    private Node LL(Node node) {
+        Node y = node.left;
+        Node t1 = y.right;
+        node.left = t1;
+        y.right = node;
+        updateHeight(node);
+        updateHeight(y);
+        return y;
+    }
+
+    private Node RR(Node node) {
+
+        Node y = node.right;
+        Node t1 = y.left;
+        node.right = t1;
+        y.left = node;
+        updateHeight(node);
+        updateHeight(y);
+        return y;
     }
 
     public int min() {
@@ -263,8 +295,10 @@ public class AVL {
         int cmp = value - node.value;
         if (cmp < 0) {
             node.left = removeNode(node.left, value);
+            return node;
         } else if (cmp > 0) {
             node.right = removeNode(node.right, value);
+            return node;
         } else {
             Node result;
             //删除操作
@@ -281,76 +315,83 @@ public class AVL {
                 result = rightMinNode;
                 size++;
             }
+            if (result == null) return null;
             //获取当前节点的平衡因子
+            result.height = getHeight(result);
             int balance = getBalance(result);
             //如果balance>1表示左斜
             if (balance > 1) {
                 //LL
                 if (result.left.left != null) {
-                    Node y = result.left;
-                    Node t3 = y.right;
-                    y.right = result;
-                    result.left = t3;
-                    return y;
+//                    Node y = result.left;
+//                    Node t3 = y.right;
+//                    y.right = result;
+//                    result.left = t3;
+//                    return y;
+
+                    return LL(result);
                 }
                 //LR
                 if (result.left.right != null) {
-                    Node x = result;
-                    Node y = result.left;
-                    Node z = result.left.right;
-                    Node t1 = x.right;
-                    Node t2 = y.left;
-                    Node t3 = z.left;
-                    Node t4 = z.right;
-                    z.left = y;
-                    z.right = x;
-                    y.left = t2;
-                    y.right = t3;
-                    x.left = t4;
-                    x.right = t1;
-                    updateHeight(x);
-                    updateHeight(y);
-                    updateHeight(z);
-                    return z;
+//                    Node x = result;
+//                    Node y = result.left;
+//                    Node z = result.left.right;
+//                    Node t1 = x.right;
+//                    Node t2 = y.left;
+//                    Node t3 = z.left;
+//                    Node t4 = z.right;
+//                    z.left = y;
+//                    z.right = x;
+//                    y.left = t2;
+//                    y.right = t3;
+//                    x.left = t4;
+//                    x.right = t1;
+//                    updateHeight(x);
+//                    updateHeight(y);
+//                    updateHeight(z);
+//                    return z;
+                    result.left = RR(result.left);
+                    return LL(result);
                 }
 
             } else if (balance < -1) {
 
                 if (result.right.right != null) {
-
-                    Node y = result.right;
-                    Node t2 = y.left;
-                    result.right = t2;
-                    y.left = result;
-                    return y;
-
+//                    Node y = result.right;
+//                    Node t2 = y.left;
+//                    result.right = t2;
+//                    y.left = result;
+//                    return y;
+                    return RR(result);
                 }
                 if (result.right.left != null) {
-                    Node x = result;
-                    Node y = result.right;
-                    Node z = result.right.left;
-                    Node t1 = x.left;
-                    Node t2 = y.right;
-                    Node t3 = z.left;
-                    Node t4 = z.right;
-                    z.left = x;
-                    z.right = y;
-                    x.left = t1;
-                    x.right = t3;
-                    y.left = t4;
-                    y.right = t2;
-                    updateHeight(x);
-                    updateHeight(y);
-                    updateHeight(z);
-                    return z;
+//                    Node x = result;
+//                    Node y = result.right;
+//                    Node z = result.right.left;
+//                    Node t1 = x.left;
+//                    Node t2 = y.right;
+//                    Node t3 = z.left;
+//                    Node t4 = z.right;
+//                    z.left = x;
+//                    z.right = y;
+//                    x.left = t1;
+//                    x.right = t3;
+//                    y.left = t4;
+//                    y.right = t2;
+//                    updateHeight(x);
+//                    updateHeight(y);
+//                    updateHeight(z);
+//                    return z;
+                    result.right = LL(node.right);
+                    return RR(result);
                 }
             } else {
                 updateHeight(result);
             }
             return result;
         }
-        return node;
     }
+
 
     public void preOrder() {
         preOrder(root);
@@ -394,7 +435,7 @@ public class AVL {
 
         Random random = new Random(Integer.MAX_VALUE);
         for (int i = 0; i < 100; i++) {
-            avl.add(random.nextInt(100));
+            avl.add(i);
         }
 
 
@@ -404,11 +445,11 @@ public class AVL {
         System.out.println();
         System.out.println(avl.isBst());
         System.out.println(avl.isBalanceTree());
-        System.out.println("size:"+avl.size);
+        System.out.println("size:" + avl.size);
 
         System.out.println("===============");
         for (int i = 0; i < 30; i++) {
-            avl.remove(random.nextInt(100));
+            avl.remove(i);
         }
 
         System.out.println(avl.root.value);
@@ -417,7 +458,7 @@ public class AVL {
         System.out.println();
         System.out.println(avl.isBst());
         System.out.println(avl.isBalanceTree());
-        System.out.println("size:"+avl.size);
+        System.out.println("size:" + avl.size);
 
     }
 
