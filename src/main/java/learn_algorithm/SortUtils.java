@@ -1,5 +1,9 @@
 package learn_algorithm;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.gson.Gson;
+import learn_data_structure.heap.MinHeap;
+
 import java.util.Arrays;
 
 /**
@@ -164,7 +168,7 @@ public class SortUtils {
             }
             swap(data, leftIndex, rightIndex);
         }
-        swap(data, left, rightIndex);
+        swap(data, left, leftIndex);
         return leftIndex;
     }
 
@@ -174,9 +178,12 @@ public class SortUtils {
      * @param data
      */
     public void heapSort(int[] data) {
-
+        MinHeap minHeap = MinHeap.buildMinHeap(Arrays.copyOf(data, data.length));
+        int size = minHeap.getSize();
+        for (int i = 0; i < size; i++) {
+            data[i] = minHeap.remove();
+        }
     }
-
 
     private void swap(int[] data, int a, int b) {
         int tmp = data[a];
@@ -194,11 +201,9 @@ public class SortUtils {
 
 //        sortUtils.selectSort(data);
 //        sortUtils.maopaoSort(data);
-
 //        sortUtils.mergeSort(data);
-
-        sortUtils.quickSort(data);
-
+//        sortUtils.quickSort(data);
+        sortUtils.heapSort(data);
         System.out.println(Arrays.toString(data));
 
 
