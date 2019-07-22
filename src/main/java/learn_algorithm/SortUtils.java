@@ -1,7 +1,5 @@
 package learn_algorithm;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.gson.Gson;
 import learn_data_structure.heap.MinHeap;
 
 import java.util.Arrays;
@@ -141,12 +139,17 @@ public class SortUtils {
      * @param data
      */
     public void quickSort(int[] data) {
-
         if (data.length <= 1) return;
         qSort(data, 0, data.length - 1);
 
     }
 
+    /**
+     * 递归排序函数
+     * @param data
+     * @param left
+     * @param right
+     */
     private void qSort(int[] data, int left, int right) {
         if (left >= right) return;
         int index = partIndex(data, left, right);
@@ -155,6 +158,13 @@ public class SortUtils {
     }
 
 
+    /**
+     * 获取基数下标
+     * @param data
+     * @param left
+     * @param right
+     * @return
+     */
     private int partIndex(int[] data, int left, int right) {
         int leftIndex = left, rightIndex = right;
         int value = data[leftIndex];
