@@ -20,7 +20,7 @@ public class SortUtils {
 
     /**
      * 选择排序算法
-     *
+     * <p>
      * 选择排序算法的核心思想
      * 1、每一次循环选择出最小值,赋值在i上(i从0->n-1)
      * 2、使用的双重for循环,外层为0到n-1(最后一个元素无需比较),内层为1到n。
@@ -43,17 +43,17 @@ public class SortUtils {
      * 冒泡排序核心思想
      * 1、每一次循环选择出最大值,赋值给n-i(从n-1到1)
      * 2、每次比较都是临近的元素比较
-     *
+     * <p>
      * 冒泡排序和选择的排序的顺序有点相反.
      *
      * @param data
      */
     public void maopaoSort(int[] data) {
-        if (data.length<=1)return;
-        for (int i = 0; i < data.length-1; i++) {
-            for (int j = 0; j <data.length-1-i ; j++) {
-                if (data[j]>data[j+1]){
-                    swap(data,j,j+1);
+        if (data.length <= 1) return;
+        for (int i = 0; i < data.length - 1; i++) {
+            for (int j = 0; j < data.length - 1 - i; j++) {
+                if (data[j] > data[j + 1]) {
+                    swap(data, j, j + 1);
                 }
             }
         }
@@ -62,16 +62,16 @@ public class SortUtils {
     /**
      * 插入排序算法
      *
-     *
      * @param data
      */
-    public void insertSort(int[] data){
+    public void insertSort(int[] data) {
 
     }
 
 
     //归并排序的辅助数组
     public int[] help;
+
     /**
      * 归并排序算法
      * 1、先拆分(分治算法)
@@ -80,50 +80,52 @@ public class SortUtils {
      * @param data
      */
     public void mergeSort(int[] data) {
-        if (data.length<=1)return;
-        help=new int[data.length];
-        divideSort(data,0,data.length-1);
+        if (data.length <= 1) return;
+        help = new int[data.length];
+        divideSort(data, 0, data.length - 1);
     }
 
     /**
      * 归并排序第一步:拆分出子问题,分治。
+     *
      * @param data
      * @param left
      * @param right
      */
-    private void divideSort(int[] data,int left,int right){
-        if (left>=right)return;
-        int middle=left+(right-left)/2;
-        divideSort(data,left,middle);
-        divideSort(data,middle+1,right);
-        merge(data,left,middle,right);
+    private void divideSort(int[] data, int left, int right) {
+        if (left >= right) return;
+        int middle = left + (right - left) / 2;
+        divideSort(data, left, middle);
+        divideSort(data, middle + 1, right);
+        merge(data, left, middle, right);
 
     }
 
     /**
      * 归并排序第二步:归并排序的难点在于merge操作
-     *
+     * <p>
      * 将两段数组[left...middle]和[middle...right]合并,它们各自都是有序的.
+     *
      * @param data
      * @param left
      * @param middle
      * @param right
      */
-    private void merge(int[] data,int left,int middle,int right){
+    private void merge(int[] data, int left, int middle, int right) {
         //合并[left,middle]和[middle+1,right],左右两个子数组都是有序的.
-        int leftStart=left,rightStart=middle+1;
-        for (int i = left; i <=right ; i++) {
-            help[i]=data[i];
+        int leftStart = left, rightStart = middle + 1;
+        for (int i = left; i <= right; i++) {
+            help[i] = data[i];
         }
-        for (int i = left; i <=right; i++) {
-            if (leftStart>middle){//左边子数组用光了
-                data[i]=help[rightStart++];
-            }else if (rightStart>right){//右边子数组用光了
-                data[i]=help[leftStart++];
-            }else if (help[leftStart]<help[rightStart]){//左边子数组下一个元素小于右边子数组下一个元素
-                data[i]=help[leftStart++];
-            }else {//左边子数组下一个元素小于右边子数组下一个元素
-                data[i]=help[rightStart++];
+        for (int i = left; i <= right; i++) {
+            if (leftStart > middle) {//左边子数组用光了
+                data[i] = help[rightStart++];
+            } else if (rightStart > right) {//右边子数组用光了
+                data[i] = help[leftStart++];
+            } else if (help[leftStart] < help[rightStart]) {//左边子数组下一个元素小于右边子数组下一个元素
+                data[i] = help[leftStart++];
+            } else {//左边子数组下一个元素小于右边子数组下一个元素
+                data[i] = help[rightStart++];
             }
         }
     }
@@ -136,32 +138,34 @@ public class SortUtils {
      */
     public void quickSort(int[] data) {
 
-        if (data.length<=1)return;
-        qSort(data,0,data.length-1);
+        if (data.length <= 1) return;
+        qSort(data, 0, data.length - 1);
 
     }
 
-    private void qSort(int[] data,int left,int right){
-        if (left>=right)return;
-        int index=partIndex(data,0,data.length-1);
-        qSort(data,left,index-1);
-        qSort(data,index+1,right);
-
+    private void qSort(int[] data, int left, int right) {
+        if (left >= right) return;
+        int index = partIndex(data, left, right);
+        qSort(data, left, index - 1);
+        qSort(data, index + 1, right);
     }
 
 
-    private int partIndex(int[] data,int left,int right){
-        int key=data[left];
-        while (left<right){
-            while (left<right&&data[left]<key){
-                left++;
+    private int partIndex(int[] data, int left, int right) {
+        int leftIndex = left, rightIndex = right;
+        int value = data[leftIndex];
+        while (true) {
+            if (leftIndex >= rightIndex) break;
+            while (leftIndex < rightIndex && data[rightIndex] >= value) {
+                rightIndex--;
             }
-            while (left<right&&data[right]>key){
-                right--;
+            while (leftIndex < rightIndex && data[leftIndex] <= value) {
+                leftIndex++;
             }
-            swap(data,left,right);
+            swap(data, leftIndex, rightIndex);
         }
-        return right;
+        swap(data, left, rightIndex);
+        return leftIndex;
     }
 
     /**
@@ -196,7 +200,6 @@ public class SortUtils {
         sortUtils.quickSort(data);
 
         System.out.println(Arrays.toString(data));
-
 
 
     }
