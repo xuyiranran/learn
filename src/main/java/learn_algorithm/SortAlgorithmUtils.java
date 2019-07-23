@@ -1,7 +1,5 @@
 package learn_algorithm;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.gson.Gson;
 import learn_data_structure.heap.MinHeap;
 
 import java.util.Arrays;
@@ -20,7 +18,7 @@ import java.util.Arrays;
  * 5、快速排序算法(实际工程中最常用和高效的排序算法)
  * 6、堆排序算法(利用小顶堆得堆序性质排序)
  */
-public class SortUtils {
+public class SortAlgorithmUtils {
 
     /**
      * 选择排序算法
@@ -194,7 +192,7 @@ public class SortUtils {
 
     public static void main(String[] args) {
 
-        SortUtils sortUtils = new SortUtils();
+        SortAlgorithmUtils sortUtils = new SortAlgorithmUtils();
 
         int[] data = new int[]{2, 3, 1, 10, 8, 2, 3, 0};
         System.out.println(Arrays.toString(data));
