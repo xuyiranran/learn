@@ -1,6 +1,8 @@
 package learnData.tree.bst;
 
 
+import java.util.LinkedList;
+
 /**
  * 二分搜索树实现
  *
@@ -180,7 +182,7 @@ public class BST<E extends Comparable<E>> {
         if (node == null) {
             return;
         }
-        System.out.println(node.e.toString());
+        System.out.print(node.e.toString()+"->");
         preOrder(node.left);
         preOrder(node.right);
 
@@ -196,7 +198,7 @@ public class BST<E extends Comparable<E>> {
     private void midOrder(Node<E> node) {
         if (node == null) return;
         midOrder(node.left);
-        System.out.println(node.e.toString());
+        System.out.print(node.e.toString()+"->");
         midOrder(node.right);
     }
 
@@ -211,7 +213,7 @@ public class BST<E extends Comparable<E>> {
         if (node==null)return;
         afterOrder(node.left);
         afterOrder(node.right);
-        System.out.println(node.e.toString());
+        System.out.print(node.e.toString()+"->");
     }
 
 
@@ -226,28 +228,28 @@ public class BST<E extends Comparable<E>> {
     public static void main(String[] args) {
 
         BST<Integer> bst = new BST<>();
-        bst.add(50);
-        bst.add(25);
-        bst.add(100);
-        bst.add(12);
-        bst.add(40);
-        bst.add(80);
-        bst.add(150);
+        bst.add(4);
+        bst.add(2);
+        bst.add(6);
         bst.add(1);
-        bst.add(15);
-        bst.add(70);
-        System.out.println(bst.getSize());
-        System.out.println(bst.isEmpty());
+        bst.add(3);
 
-        System.out.println("tree max:"+bst.max());
 
-        System.out.println("tree min:"+bst.min());
 
-        System.out.println("tree contains 100:"+bst.contains(100));
-        System.out.println("tree contains 33:"+bst.contains(33));
-        bst.remove(1);
-        bst.remove(12);
+        System.out.println("---");
+        bst.preOrder();
+        System.out.println();
         bst.midOrder();
+        System.out.println();
+        bst.afterOrder();
+
+
+        LinkedList<Integer> linkedList=new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+
+
 
     }
 
