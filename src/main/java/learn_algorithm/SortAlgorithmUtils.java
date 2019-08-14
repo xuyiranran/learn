@@ -176,11 +176,20 @@ public class SortAlgorithmUtils {
      * @param data
      */
     public void heapSort(int[] data) {
-        MinHeap minHeap = MinHeap.buildMinHeap(Arrays.copyOf(data, data.length));
-        int size = minHeap.getSize();
-        for (int i = 0; i < size; i++) {
+//        MinHeap minHeap = MinHeap.buildMinHeap(Arrays.copyOf(data, data.length));
+//        int size = minHeap.getSize();
+//        for (int i = 0; i < size; i++) {
+//            data[i] = minHeap.remove();
+//        }
+
+        MinHeap minHeap = new MinHeap(data.length);
+        for (int i = 0; i < data.length; i++) {
+            minHeap.add(data[i]);
+        }
+        for (int i = 0; i < data.length; i++) {
             data[i] = minHeap.remove();
         }
+
     }
 
     private void swap(int[] data, int a, int b) {
