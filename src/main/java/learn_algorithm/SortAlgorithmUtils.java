@@ -18,7 +18,7 @@ import java.util.Arrays;
  * 5、快速排序算法(实际工程中最常用和高效的排序算法)
  * 6、堆排序算法(利用小顶堆得堆序性质排序)
  */
-public class SortUtils {
+public class SortAlgorithmUtils {
 
     /**
      * 选择排序算法
@@ -188,11 +188,20 @@ public class SortUtils {
      * @param data
      */
     public void heapSort(int[] data) {
-        MinHeap minHeap = MinHeap.buildMinHeap(Arrays.copyOf(data, data.length));
-        int size = minHeap.getSize();
-        for (int i = 0; i < size; i++) {
+//        MinHeap minHeap = MinHeap.buildMinHeap(Arrays.copyOf(data, data.length));
+//        int size = minHeap.getSize();
+//        for (int i = 0; i < size; i++) {
+//            data[i] = minHeap.remove();
+//        }
+
+        MinHeap minHeap = new MinHeap(data.length);
+        for (int i = 0; i < data.length; i++) {
+            minHeap.add(data[i]);
+        }
+        for (int i = 0; i < data.length; i++) {
             data[i] = minHeap.remove();
         }
+
     }
 
     private void swap(int[] data, int a, int b) {
@@ -204,7 +213,7 @@ public class SortUtils {
 
     public static void main(String[] args) {
 
-        SortUtils sortUtils = new SortUtils();
+        SortAlgorithmUtils sortUtils = new SortAlgorithmUtils();
 
         int[] data = new int[]{2, 3, 1, 10, 8, 2, 3, 0};
         System.out.println(Arrays.toString(data));
