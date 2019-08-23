@@ -1,6 +1,7 @@
 package learn_training.sort;
 
 import java.util.Arrays;
+import java.util.BitSet;
 
 public class SortTest {
 
@@ -107,6 +108,27 @@ public class SortTest {
     }
 
 
+    public int count(int[] data1,int[] data2){
+
+        BitSet bitSet=new BitSet(2400);
+        int count=0;
+        for (int i = 0; i <data1.length ; i++) {
+            int first=data1[i];
+            int second=data2[i];
+            for (int j = first; j <second ; j++) {
+                if (bitSet.get(j)){
+                    count++;
+                    break;
+                }else {
+                    bitSet.set(j,true);
+                }
+            }
+        }
+        return count;
+
+    }
+
+
     public static void main(String[] args) {
 
         SortTest sortTest = new SortTest();
@@ -117,6 +139,8 @@ public class SortTest {
 //        sortTest.quickSort(data);
         sortTest.mergeSort(data);
         System.out.println(Arrays.toString(data));
+
+        System.out.println(sortTest.count(new int[]{900,940,950,1100},new int[]{910,1200,1120,1130}));
 
     }
 
