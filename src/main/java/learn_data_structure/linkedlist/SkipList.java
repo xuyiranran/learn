@@ -116,4 +116,22 @@ public class SkipList {
     }
 
 
+    public static void main(String[] args) {
+
+        SkipList skipList=new SkipList();
+
+        skipList.insert(1);
+        skipList.insert(4);
+        skipList.insert(3);
+        skipList.insert(6);
+        skipList.insert(7);
+        skipList.insert(8);
+
+        String string=skipList.head.toString();
+        System.out.println(string);
+
+        skipList.printAll();
+
+    }
+
 }
