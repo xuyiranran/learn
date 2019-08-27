@@ -153,6 +153,7 @@ public class SortAlgorithmUtils {
     private void qSort(int[] data, int left, int right) {
         if (left >= right) return;
         int index = partIndex(data, left, right);
+        System.out.println("index:"+index);
         qSort(data, left, index - 1);
         qSort(data, index + 1, right);
     }
@@ -170,10 +171,10 @@ public class SortAlgorithmUtils {
         int value = data[leftIndex];
         while (true) {
             if (leftIndex >= rightIndex) break;
-            while (leftIndex < rightIndex && data[rightIndex] >= value) {
+            while (leftIndex < rightIndex && data[rightIndex] >= value) {//向左扫描一直扫到第一个小于目标值的下标
                 rightIndex--;
             }
-            while (leftIndex < rightIndex && data[leftIndex] <= value) {
+            while (leftIndex < rightIndex && data[leftIndex] <= value) {//向右扫描一直到扫到一个大于目标值的下标
                 leftIndex++;
             }
             swap(data, leftIndex, rightIndex);
@@ -215,14 +216,14 @@ public class SortAlgorithmUtils {
 
         SortAlgorithmUtils sortUtils = new SortAlgorithmUtils();
 
-        int[] data = new int[]{2, 3, 1, 10, 8, 2, 3, 0};
+        int[] data = new int[]{2, 1, 10, 6, 5, 7, 0};
         System.out.println(Arrays.toString(data));
 
 //        sortUtils.selectSort(data);
 //        sortUtils.maopaoSort(data);
 //        sortUtils.mergeSort(data);
-//        sortUtils.quickSort(data);
-        sortUtils.heapSort(data);
+        sortUtils.quickSort(data);
+//        sortUtils.heapSort(data);
         System.out.println(Arrays.toString(data));
 
 

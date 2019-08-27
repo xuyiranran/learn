@@ -33,7 +33,7 @@ public class GroupAnagrams {
                 ans.put(new String(chars),tmp);
             }
         }
-        return new ArrayList<>(ans.values());
+        return new ArrayList(ans.values());
     }
 
 
